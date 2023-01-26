@@ -13,6 +13,7 @@ export const CotacaoForm: React.FC = ({ volume }: { volume: number }) => {
 
   const [price, setPrice] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(false)
+
   useEffect(() => {
     if (volume) {
       clearErrors("volume")
@@ -21,7 +22,7 @@ export const CotacaoForm: React.FC = ({ volume }: { volume: number }) => {
 
   const onSubmit = (data) => {
     setLoading(true)
-    fetch("/api/cotacao", {
+    fetch("https://donumtibas.herokuapp.com/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

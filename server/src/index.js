@@ -5,7 +5,13 @@ const resinPrice = 325
 const app = express()
 app.use(cors())
 app.use(express.json())
-app.post("/", (req, res) => {
+
+const corsOptions = {
+  origin: "https://flaviozanoni.github.io/donumtibi/",
+  optionsSuccessStatus: 200,
+}
+
+app.post("/", cors(corsOptions), (req, res) => {
   const { quantity, sanded, painted, cupom, volume } = req.body
   const custo = quantity * ((volume * resinPrice) / 1000)
   res.send({ custo })
