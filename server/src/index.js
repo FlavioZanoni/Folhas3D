@@ -6,11 +6,11 @@ const app = express()
 app.use(express.json())
 
 const corsOptions = {
-  origin: "https://flaviozanoni.github.io",
-  optionsSuccessStatus: 200,
+  origin: "*",
 }
 
-app.post("/", cors(corsOptions), (req, res) => {
+app.use(cors(corsOptions))
+app.post("/", (req, res) => {
   const { quantity, sanded, painted, cupom, volume } = req.body
   const custo = quantity * ((volume * resinPrice) / 1000)
   res.send({ custo })
