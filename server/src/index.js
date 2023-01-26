@@ -3,7 +3,6 @@ import express from "express"
 const resinPrice = 325
 
 const app = express()
-app.use(cors())
 app.use(express.json())
 
 const corsOptions = {
