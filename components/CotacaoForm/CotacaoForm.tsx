@@ -9,11 +9,7 @@ export const CotacaoForm: React.FC = ({ volume }: { volume: number }) => {
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      volume: volume,
-    },
-  })
+  } = useForm()
 
   const [price, setPrice] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(false)
@@ -118,7 +114,9 @@ export const CotacaoForm: React.FC = ({ volume }: { volume: number }) => {
             <b> Cotar</b>
           </button>
           {errors.volume && (
-            <div className="text-red-500">{errors.volume.message}</div>
+            <div className="text-red-500">
+              {errors.volume.message.toString()}
+            </div>
           )}
         </div>
 
