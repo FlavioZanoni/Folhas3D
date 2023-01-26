@@ -7,7 +7,7 @@ app.use(cors())
 app.use(express.json())
 
 const corsOptions = {
-  origin: "https://flaviozanoni.github.io/donumtibi/",
+  origin: "https://flaviozanoni.github.io",
   optionsSuccessStatus: 200,
 }
 
