@@ -21,7 +21,12 @@ export const CotacaoForm: React.FC = ({ volume }: { volume: number }) => {
   }, [volume])
 
   const onSubmit = (data) => {
-    setLoading(true)
+    const { volume, quantity, sanded, painted, cupom } = data
+
+    const res = quantity * ((volume * 325) / 1000) + 20
+
+    setPrice(res)
+    /*     setLoading(true)
     fetch("https://donumtibas.herokuapp.com/", {
       method: "POST",
       headers: {
@@ -33,7 +38,7 @@ export const CotacaoForm: React.FC = ({ volume }: { volume: number }) => {
       .then((data) => {
         setLoading(false)
         setPrice(data.custo)
-      })
+      }) */
   }
 
   const inputStyle =
