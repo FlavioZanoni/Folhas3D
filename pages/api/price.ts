@@ -29,7 +29,19 @@ export default function handler(
     const basePrice = quantity * ((volume * resinPrice) / 1000)
 
     if (discountDict && cupom) {
-      const discounts = JSON.parse(discountDict)
+      let discounts = null
+      try {
+        const decodedDiscountDict = Buffer.from(discountDict, 'base64').toString('utf-8');
+        discounts = JSON.parse(decodedDiscountDict);
+      } catch (error) {
+        console.error("Failed to decode or parse discount dictionary:", error);
+        res.status(200).json({
+          price: basePrice,
+          discount: 0,
+          discountedPrice: 0
+        })
+        return
+      }
 
       const percent = discounts.desc[cupom]
 
