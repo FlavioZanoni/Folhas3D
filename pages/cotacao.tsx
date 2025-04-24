@@ -1,14 +1,14 @@
 import React, { useState } from "react"
 import { DropFile, View3d } from "../components"
 import { CotacaoForm } from "../components/CotacaoForm"
-var CANVAS_WIDTH = 600
-var CANVAS_HEIGHT = 800
+var CANVAS_WIDTH = 700
+var CANVAS_HEIGHT = 900
 const Cotacao: React.FC = () => {
   const [files, setFiles] = useState<Array<File>>([])
-  const [volume, setVolume] = useState<string>("")
+  const [volume, setVolume] = useState<number>(0)
 
   return (
-    <div className="flex flex-row m-14 gap-8">
+    <div className="flex flex-col md:flex-row m-14 gap-8">
       <div className="relative">
         <View3d
           setVolume={setVolume}
@@ -16,7 +16,7 @@ const Cotacao: React.FC = () => {
           width={CANVAS_WIDTH}
           height={CANVAS_HEIGHT}
         />
-        <div className="absolute top-[400px] left-[150px]">
+        <div className="absolute top-[420px] left-[200px]">
           {files.length === 0 && <DropFile files={files} setFiles={setFiles} />}
         </div>
       </div>

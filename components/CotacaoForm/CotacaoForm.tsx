@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
+
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export const CotacaoForm: React.FC = ({ volume }: { volume: number }) => {
   const {
@@ -9,25 +10,22 @@ export const CotacaoForm: React.FC = ({ volume }: { volume: number }) => {
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
-  const [price, setPrice] = useState<number>(0)
-  const [loading, setLoading] = useState<boolean>(false)
+  const [price, setPrice] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [discount, setDiscount] = useState<number>(0);
+  const [discountedPrice, setDiscountedPrice] = useState<number>(0);
 
   useEffect(() => {
     if (volume) {
-      clearErrors("volume")
+      clearErrors("volume");
     }
-  }, [volume])
+  }, [volume]);
 
-  const onSubmit = (data) => {
-    const { volume, quantity, sanded, painted, cupom } = data
-
-    const res = quantity * ((volume * 325) / 1000) + 20
-
-    setPrice(res)
-    /*     setLoading(true)
-    fetch("https://donumtibas.herokuapp.com/", {
+  const onSubmit = (data: any) => {
+    setLoading(true);
+    fetch("/api/price", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -36,14 +34,21 @@ export const CotacaoForm: React.FC = ({ volume }: { volume: number }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setLoading(false)
-        setPrice(data.custo)
-      }) */
-  }
+        setLoading(false);
+        setPrice(data.price);
+        if (data.discount) {
+          setDiscount(data.discount);
+          setDiscountedPrice(data.discountedPrice);
+        } else {
+          setDiscount(0);
+          setDiscountedPrice(0);
+        }
+      });
+  };
 
   const inputStyle =
-    "border border-gray-300 my-2 p-2 rounded bg-white text-gray-700 text-lg focus:border focus:border-purple-500 focus:outline-none"
-  const labelStyle = "text-gray-600 mt-3"
+    "border border-gray-300 my-2 p-2 rounded bg-white text-gray-700 text-lg focus:border focus:border-purple-500 focus:outline-none";
+  const labelStyle = "text-gray-600 mt-3";
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -63,33 +68,6 @@ export const CotacaoForm: React.FC = ({ volume }: { volume: number }) => {
             {...register("quantity", { required: true })}
           />
         </div>
-
-        <div className="flex items-center">
-          <input
-            className="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 "
-            type="checkbox"
-            id="sanded"
-            name="sanded"
-            defaultChecked={false}
-            {...register("sanded")}
-          />
-          <label className="ml-2 text-gray-700" htmlFor="sanded">
-            Lixado
-          </label>
-        </div>
-        <div className="flex items-center ">
-          <input
-            className="w-4 h-4 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 "
-            type="checkbox"
-            id="paint"
-            name="paint"
-            defaultChecked={false}
-            {...register("painted")}
-          />{" "}
-          <label className="ml-2 text-gray-700" htmlFor="paint">
-            Pintura:
-          </label>
-        </div>
         <div className="flex flex-col">
           <label className={labelStyle} htmlFor="cupom">
             Cupom de desconto:
@@ -108,12 +86,12 @@ export const CotacaoForm: React.FC = ({ volume }: { volume: number }) => {
             type="submit"
             onClick={() => {
               if (volume) {
-                setValue("volume", volume)
+                setValue("volume", volume);
               } else {
                 setError("volume", {
                   type: "manual",
-                  message: "Por favor, insira um volume",
-                })
+                  message: "Por favor, insira um modelo 3d",
+                });
               }
             }}
           >
@@ -121,7 +99,7 @@ export const CotacaoForm: React.FC = ({ volume }: { volume: number }) => {
           </button>
           {errors.volume && (
             <div className="text-red-500">
-              {errors.volume.message.toString()}
+              {errors.volume.message?.toString()}
             </div>
           )}
         </div>
@@ -132,18 +110,41 @@ export const CotacaoForm: React.FC = ({ volume }: { volume: number }) => {
               <b>Carregando...</b>
             </div>
           ) : price ? (
-            <div className="text-1xl text-slate-700">
-              <b>
-                Preço:{" "}
-                {new Intl.NumberFormat("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                }).format(price)}
-              </b>
-            </div>
+            <>
+              <div className="text-1xl text-slate-700">
+                <b>
+                  Preço:{" "}
+                  {discount > 0 ? (
+                    <span className="line-through">
+                      {new Intl.NumberFormat("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      }).format(price)}
+                    </span>
+                  ) : (
+                    new Intl.NumberFormat("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    }).format(price)
+                  )}
+                </b>
+              </div>
+              {discount > 0 && discountedPrice > 0 && (
+                <div className="text-1xl text-green-700">
+                  <b>
+                    Preço com desconto ({discount}%):{" "}
+                    {new Intl.NumberFormat("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    }).format(discountedPrice)}
+                  </b>
+                </div>
+              )}
+            </>
           ) : null}
         </div>
       </div>
     </form>
-  )
-}
+  );
+};
+
