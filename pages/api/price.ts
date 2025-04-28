@@ -30,11 +30,8 @@ export default function handler(
     }
 
     const printTime = volume / printerVolSec
-    console.log("printTime", printTime)
     const printTimeCost = (printTime / 3600) * (priceKW / 1000) * printerWattsH
-    console.log("printTimeCost", printTimeCost)
     const basePrice = quantity * (volume * (pricePerKg / 1000)) + printTimeCost
-    console.log("basePrice", basePrice)
 
     if (discountDict && cupom) {
       let discounts = null

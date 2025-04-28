@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import * as THREE from "three"
-import { addToScene, getMeshValues, init, loadSTL } from "../../lib/threejs"
+import { addToScene, getMeshVolume, init, loadSTL } from "../../lib/threejs"
 import { SceneInit, View3dProps } from "./types"
 
 const printerSize = {
@@ -26,7 +26,7 @@ export const View3d = ({ width, height, files, setVolume }: View3dProps) => {
       }
     }
     if (mesh?.mesh) {
-      setVolume(getMeshValues(mesh.mesh))
+      setVolume(getMeshVolume(mesh.mesh))
     }
   }, [mesh, scene])
 

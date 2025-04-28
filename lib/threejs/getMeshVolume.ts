@@ -1,6 +1,6 @@
 import * as THREE from "three"
 
-export const getMeshValues = (mesh: THREE.Mesh) => {
+export const getMeshVolume = (mesh: THREE.Mesh) => {
   const geometry = mesh.geometry
 
   if (!geometry.isBufferGeometry) {

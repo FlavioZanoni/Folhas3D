@@ -7,13 +7,17 @@ var CANVAS_HEIGHT = 900
 
 const Price: React.FC = () => {
   const [files, setFiles] = useState<Array<File>>([])
-  const [volume, setVolume] = useState<number>(0)
+  const [volume, setVolume] = useState(0)
+
+  const addVolume = (newVolume: number) => {
+    setVolume((prevVolume) => prevVolume + newVolume)
+  }
 
   return (
     <div className="flex flex-col md:flex-row m-14 gap-8">
       <div className="relative">
         <View3d
-          setVolume={setVolume}
+          setVolume={addVolume}
           files={files}
           width={CANVAS_WIDTH}
           height={CANVAS_HEIGHT}
