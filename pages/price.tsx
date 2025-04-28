@@ -1,9 +1,11 @@
 import React, { useState } from "react"
 import { DropFile, View3d } from "../components"
-import { CotacaoForm } from "../components/CotacaoForm"
+import { PriceForm } from "../components/PriceForm"
+
 var CANVAS_WIDTH = 700
 var CANVAS_HEIGHT = 900
-const Cotacao: React.FC = () => {
+
+const Price: React.FC = () => {
   const [files, setFiles] = useState<Array<File>>([])
   const [volume, setVolume] = useState<number>(0)
 
@@ -21,10 +23,10 @@ const Cotacao: React.FC = () => {
         </div>
       </div>
       <div>
-        <CotacaoForm volume={volume} />
+        <PriceForm volume={volume} />
       </div>
     </div>
   )
 }
 
-export default Cotacao
+export default Price

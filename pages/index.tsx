@@ -1,5 +1,5 @@
-import Cotacao from "./cotacao"
+import Price from "./price"
 
 export default function Home() {
-  return <Cotacao />
+  return <Price />
 }

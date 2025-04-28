@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-export const CotacaoForm: React.FC = ({ volume }: { volume: number }) => {
+export const PriceForm = ({ volume }: { volume: number }) => {
   const {
     register,
     handleSubmit,

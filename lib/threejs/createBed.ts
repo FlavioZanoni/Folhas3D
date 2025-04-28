@@ -1,5 +1,6 @@
 import * as THREE from "three"
 
+
 const createBed = (printerSize: { x: number; y: number; z: number }) => {
   const boxGeo = new THREE.BoxGeometry(
     printerSize.x,
@@ -21,10 +22,11 @@ const createBed = (printerSize: { x: number; y: number; z: number }) => {
     })
   )
 
-  const camaGeo = new THREE.PlaneGeometry(192, 120)
-  camaGeo.rotateX(-Math.PI / 2)
-  const cama = new THREE.Mesh(
-    camaGeo,
+  // Use printerSize.x and printerSize.y for the bed dimensions
+  const bedGeo = new THREE.PlaneGeometry(printerSize.x, printerSize.y)
+  bedGeo.rotateX(-Math.PI / 2) // Rotate to lie flat
+  const bed = new THREE.Mesh(
+    bedGeo,
     new THREE.MeshBasicMaterial({
       color: 0x656565,
       opacity: 0.2,
@@ -33,10 +35,10 @@ const createBed = (printerSize: { x: number; y: number; z: number }) => {
       side: THREE.DoubleSide,
     })
   )
-  const camaBBox = new THREE.Box3().setFromObject(cama)
-  cama.position.y = -camaBBox.min.y
 
-  const edges = new THREE.EdgesGeometry(camaGeo)
+  bed.position.y = 0;
+
+  const edges = new THREE.EdgesGeometry(bedGeo)
   const line = new THREE.LineSegments(
     edges,
     new THREE.LineBasicMaterial({
@@ -47,9 +49,7 @@ const createBed = (printerSize: { x: number; y: number; z: number }) => {
   )
 
   box.position.set(0, 0, 0)
-  cama.position.set(0, 0, 0)
-  line.position.set(0, 0, 0)
-  return { box, cama, line }
+  return { box, bed, line }
 }
 
 export default createBed

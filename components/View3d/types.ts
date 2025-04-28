@@ -11,6 +11,6 @@ export type SceneInit = {
   renderer: THREE.WebGLRenderer
   controls: OrbitControls
   box: THREE.Mesh
-  cama: THREE.Mesh
+  bed: THREE.Mesh
   line: THREE.LineSegments
 }

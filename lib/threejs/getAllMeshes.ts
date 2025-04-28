@@ -12,7 +12,7 @@ const getAllMeshes = async (
       if (
         object.isMesh &&
         object.uuid != sceneInit.box.uuid &&
-        object.uuid != sceneInit.cama.uuid &&
+        object.uuid != sceneInit.bed.uuid &&
         object.uuid != sceneInit.line.uuid
       ) {
         meshes.push(object)

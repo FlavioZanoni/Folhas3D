@@ -31,16 +31,16 @@ export const init = (
   scene.add(lights.light3)
 
   //bed
-  const { box, cama, line } = createBed(printerSize)
+  const { box, bed, line } = createBed(printerSize)
   //scene.add(box)
   scene.add(line)
-  scene.add(cama)
+  scene.add(bed)
 
-  const animate = function () {
+  const animate = function() {
     requestAnimationFrame(animate)
     controls.update()
     renderer.render(scene, camera)
   }
   animate()
-  return { scene, camera, renderer, controls, box, cama, line }
+  return { scene, camera, renderer, controls, box, bed, line }
 }

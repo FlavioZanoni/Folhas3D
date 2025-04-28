@@ -4,9 +4,9 @@ import { addToScene, getMeshValues, init, loadSTL } from "../../lib/threejs"
 import { SceneInit, View3dProps } from "./types"
 
 const printerSize = {
-  x: 192,
-  y: 120,
-  z: 200,
+  x: 256,
+  y: 256,
+  z: 256,
 }
 
 export const View3d = ({ width, height, files, setVolume }: View3dProps) => {
@@ -49,6 +49,7 @@ export const View3d = ({ width, height, files, setVolume }: View3dProps) => {
         ref={canvasRef}
         id="canvas"
       />
+      <p className="text-slate-500 text-sm mt-1 ml-2">*Renderização meramente ilustrativa</p>
     </>
   )
 }

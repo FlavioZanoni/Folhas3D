@@ -6,8 +6,14 @@ type Data = {
   discountedPrice: number
 }
 
-const pricePerKg = process.env.NEXT_PUBLIC_PRICE_PER_KG
+
 const discountDict = process.env.NEXT_PUBLIC_DISCOUNT_DICT
+
+const pricePerKg = Number(process.env.NEXT_PUBLIC_PRICE_PER_KG || 1)
+const priceKW = Number(process.env.NEXT_PUBLIC_PRICE_KWH || 0)
+const printerWattsH = Number(process.env.NEXT_PUBLIC_PRINTER_WATTSH || 0)
+const printerVolSec = Number(process.env.NEXT_PUBLIC_PRINTER_VOL_PER_SEC || 1)
+
 
 export default function handler(
   req: NextApiRequest,
@@ -23,10 +29,12 @@ export default function handler(
       return res.status(400).json({ price: 0, discount: 0, discountedPrice: 0 })
     }
 
-    const costPerKg = pricePerKg ? parseFloat(pricePerKg) : 0
-    const resinPrice = costPerKg || 0
-
-    const basePrice = quantity * ((volume * resinPrice) / 1000)
+    const printTime = volume / printerVolSec
+    console.log("printTime", printTime)
+    const printTimeCost = (printTime / 3600) * (priceKW / 1000) * printerWattsH
+    console.log("printTimeCost", printTimeCost)
+    const basePrice = quantity * (volume * (pricePerKg / 1000)) + printTimeCost
+    console.log("basePrice", basePrice)
 
     if (discountDict && cupom) {
       let discounts = null
