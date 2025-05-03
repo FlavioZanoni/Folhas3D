@@ -6,14 +6,13 @@ type Data = {
   discountedPrice: number
 }
 
-
 const discountDict = process.env.NEXT_PUBLIC_DISCOUNT_DICT
 
 const pricePerKg = Number(process.env.NEXT_PUBLIC_PRICE_PER_KG || 1)
 const priceKW = Number(process.env.NEXT_PUBLIC_PRICE_KWH || 0)
 const printerWattsH = Number(process.env.NEXT_PUBLIC_PRINTER_WATTSH || 0)
 const printerVolSec = Number(process.env.NEXT_PUBLIC_PRINTER_VOL_PER_SEC || 1)
-
+const upcharge = Number(process.env.NEXT_PUBLIC_UPCHARGE || 0)
 
 export default function handler(
   req: NextApiRequest,
@@ -31,7 +30,10 @@ export default function handler(
 
     const printTime = volume / printerVolSec
     const printTimeCost = (printTime / 3600) * (priceKW / 1000) * printerWattsH
-    const basePrice = quantity * (volume * (pricePerKg / 1000)) + printTimeCost
+    let basePrice = quantity * (volume * (pricePerKg / 1000)) + printTimeCost
+    if (upcharge > 0) {
+      basePrice += upcharge * basePrice
+    }
 
     if (discountDict && cupom) {
       let discounts = null
