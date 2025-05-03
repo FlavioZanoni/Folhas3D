@@ -13,6 +13,7 @@ const priceKW = Number(process.env.NEXT_PUBLIC_PRICE_KWH || 0)
 const printerWattsH = Number(process.env.NEXT_PUBLIC_PRINTER_WATTSH || 0)
 const printerVolSec = Number(process.env.NEXT_PUBLIC_PRINTER_VOL_PER_SEC || 1)
 const upcharge = Number(process.env.NEXT_PUBLIC_UPCHARGE || 0)
+const minPrice = Number(process.env.NEXT_PUBLIC_MIN_PRICE || 0)
 
 export default function handler(
   req: NextApiRequest,
@@ -53,12 +54,27 @@ export default function handler(
       const percent = discounts.desc[cupom]
 
       if (percent && !isNaN(percent)) {
+        let dicountedPrice = basePrice - (basePrice * percent / 100)
+
+        if (dicountedPrice < minPrice) {
+          res.status(200).json({
+            price: minPrice,
+            discount: 0,
+            discountedPrice: minPrice
+          })
+          return
+        }
+
         res.status(200).json({
           price: basePrice,
           discount: percent,
-          discountedPrice: basePrice - (basePrice * percent / 100)
+          discountedPrice: dicountedPrice
         })
         return
+      }
+
+      if (basePrice < minPrice) {
+        basePrice = minPrice
       }
     }
 

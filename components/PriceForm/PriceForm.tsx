@@ -79,6 +79,7 @@ export const PriceForm = ({ volume }: { volume: number }) => {
             name="cupom"
             {...register("cupom")}
           />
+          <p className="text-slate-500 text-sm mt-1 ml-2">*Cupons somente serão aplicados para pedidos maiores que R${process.env.NEXT_PUBLIC_MIN_PRICE}.00</p>
         </div>
         <div className="flex flex-col">
           <button
