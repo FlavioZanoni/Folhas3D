@@ -83,7 +83,7 @@ export const PriceForm = ({ volume }: { volume: number }) => {
         </div>
         <div className="flex flex-col">
           <button
-            className="mb-8 mx-auto container block w-full p-3 text-lg bg-purple-700 text-purple-50 rounded hover:bg-purple-600"
+            className="mb-8 mx-auto container block w-full p-3 text-lg bg-[#76c672] text-slate-50 rounded hover:bg-[#4fb55b]"
             type="submit"
             onClick={() => {
               if (volume) {
